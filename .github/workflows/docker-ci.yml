@@ -1,0 +1,66 @@
+name: Build Docker Images
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Backend
+      - name: Build backend Docker image
+        run: |
+          docker build -t food-delivery-back:latest -f backend/Dockerfile backend
+
+      - name: Save backend image
+        run: |
+          docker save food-delivery-back:latest -o food-delivery-back.tar
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: food-delivery-back
+          path: food-delivery-back.tar
+          retention-days: 7
+
+      # Frontend
+      - name: Build frontend Docker image
+        run: |
+          docker build -t food-delivery-front:latest -f frontend/Dockerfile frontend
+
+      - name: Save frontend image
+        run: |
+          docker save food-delivery-front:latest -o food-delivery-front.tar
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: food-delivery-front
+          path: food-delivery-front.tar
+          retention-days: 7
+
+      # Admin
+      - name: Build admin Docker image
+        run: |
+          docker build -t food-delivery-admin:latest -f admin/Dockerfile admin
+
+      - name: Save admin image
+        run: |
+          docker save food-delivery-admin:latest -o food-delivery-admin.tar
+
+      - name: Upload admin artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: food-delivery-admin
+          path: food-delivery-admin.tar
+          retention-days: 7

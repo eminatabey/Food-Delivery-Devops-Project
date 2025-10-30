@@ -3,6 +3,3 @@
 .env.frontend
 .env.admin
 .env
-
-# Github actions
-.github/
