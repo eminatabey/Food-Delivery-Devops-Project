@@ -1,4 +1,8 @@
+# ENV FILES
 .env.backend
 .env.frontend
 .env.admin
 .env
+
+# Github actions
+.github/
