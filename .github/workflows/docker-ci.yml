@@ -17,15 +17,41 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+     # Backend Tests
+      - name: Backend install + tests
+        run: |
+          cd backend
+          npm ci
+          npm test
+
+      # Frontend Tests
+      - name: Frontend install + lint + tests
+        run: |
+          cd frontend
+          npm ci
+          npm run lint --if-present
+          npm test --if-present
+
       # Backend
       - name: Build backend Docker image
         run: |
           docker build -t food-delivery-back:latest -f backend/Dockerfile backend
 
+      # Scan backend image with Trivy
+      - name: Scan backend image with Trivy
+        uses: aquasecurity/trivy-action@0.24.1
+        with:
+          image-ref: food-delivery-back:latest
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+
+      # Save Backend
       - name: Save backend image
         run: |
           docker save food-delivery-back:latest -o food-delivery-back.tar
 
+      # Upload Backend
       - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
