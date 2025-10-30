@@ -6,6 +6,7 @@ import axios from "axios";
 import { StoreContext } from "../../context/StoreContext";
 import {useNavigate } from "react-router-dom";
 
+
 const Login = ({ url }) => {
   const navigate=useNavigate();
   const {admin,setAdmin,token, setToken } = useContext(StoreContext);
@@ -19,6 +20,7 @@ const Login = ({ url }) => {
     setData((data) => ({ ...data, [name]: value }));
   };
   const onLogin = async (event) => {
+    const url = process.env.BACKEND_URL || "http://localhost:5000";
     event.preventDefault();
     const response = await axios.post(url + "/api/user/login", data);
     if (response.data.success) {

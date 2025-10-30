@@ -34,6 +34,8 @@ const Add = ({url}) => {
     formData.append("category", data.category);
     formData.append("image", image);
 
+    const url = process.env.BACKEND_URL || "http://localhost:5000";
+    console.log("################## == ", url);
     const response = await axios.post(`${url}/api/food/add`, formData,{headers:{token}});
     if (response.data.success) {
       setData({
