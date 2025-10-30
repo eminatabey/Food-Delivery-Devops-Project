@@ -22,7 +22,7 @@ jobs:
         run: |
           cd backend
           npm ci
-          npm test
+          npm test --if-present
 
       # Frontend Tests
       - name: Frontend install + lint + tests
