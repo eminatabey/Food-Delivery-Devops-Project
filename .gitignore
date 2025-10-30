@@ -3,3 +3,14 @@
 .env.frontend
 .env.admin
 .env
+
+# Node.js
+node_modules/
+
+# Build and debug files
+*.log
+*.tmp
+*.pid
+*.swp
+*.swo
+*.DS_Store
